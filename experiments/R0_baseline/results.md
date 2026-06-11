@@ -26,6 +26,12 @@ GRPO at K=2 **over-optimises** the format shaping reward and **collapses** GSM8K
 highest advantage variance `Var(Â)=(K−1)/K=½` + frequent degenerate groups → unstable updates. This motivates
 both improvements (Dr.GRPO, K=4) and an **early stop** (~step 800 would have kept a far better model).
 
+## Eval artifacts (machine-generated — not hand-typed)
+`eval_results/` holds the script output that produced the numbers above:
+- `R0_baseline_summary.json` — metrics + provenance (model, ckpt, `restored_step`, timestamp).
+- `R0_baseline_per_prompt.csv` — all 64 test prompts: gold, extracted answer, correct/partial/format, Q+response snippet.
+- `base_summary.json` / `base_per_prompt.csv` — the untrained base (the comparison point).
+
 ## How to reproduce
 ```bash
 source ~/venvs/tunix/bin/activate

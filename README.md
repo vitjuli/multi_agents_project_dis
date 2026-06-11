@@ -29,12 +29,14 @@ variance) prevents the collapse entirely. → directly validates the I.4 Q1 vari
 README.md                     # this file
 figs/                         # accuracy_bar.png, collapse_curve.png (from plot_results.py)
 experiments/
-  R0_baseline/  scripts/ (stock) + results.md     # reference run, K=2
-  R3_drgrpo/    scripts/ (DrGRPO) + results.md     # improvement #1
-  R1_K4/        scripts/ (K=4)   + results.md      # improvement #2 (best)
+  R0_baseline/  scripts/ (stock) + results.md + eval_results/   # reference run, K=2
+  R3_drgrpo/    scripts/ (DrGRPO) + results.md + eval_results/   # improvement #1
+  R1_K4/        scripts/ (K=4)   + results.md + eval_results/    # improvement #2 (best)
 ```
-Each `results.md` has: exact config, W&B/commit provenance, the accuracy numbers, the finding, and a
-copy-paste reproduce block.
+Each `results.md` has: exact config, W&B/commit provenance, accuracy numbers, the finding, a reproduce block.
+Each `eval_results/` holds the **machine-generated** proof the numbers are real (not hand-typed):
+`<exp>_summary.json` (metrics + model/ckpt/step/timestamp) and `<exp>_per_prompt.csv` (all 64 test prompts:
+gold, extracted answer, correct/partial/format, question + response snippet) — produced by `eval_ckpt.py --out`.
 
 ## Eval tooling (in every `scripts/`)
 - `eval_ckpt.py --policy {base,lora} --ckpt <…/actor> [--step N]` — restores the trained LoRA adapters and

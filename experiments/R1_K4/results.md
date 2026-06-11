@@ -29,6 +29,12 @@ First eval printed `restored step 0` (= untrained, ~base by accident) because th
 into an empty dir; the real ckpt was in `/tmp/content/ckpts_R1K4/actor/{500..1682}`. **Always check the eval
 log says `restored step N` with N≠0.**
 
+## Eval artifacts (machine-generated — not hand-typed)
+`eval_results/` holds the script output that produced the numbers above:
+- `R1_K4_summary.json` — metrics + provenance (model, ckpt, `restored_step=1682`, timestamp).
+- `R1_K4_per_prompt.csv` — all 64 test prompts: gold, extracted answer, correct/partial/format, Q+response snippet.
+- `base_*` — the untrained base (comparison point).
+
 ## How to reproduce
 ```bash
 source ~/venvs/tunix/bin/activate

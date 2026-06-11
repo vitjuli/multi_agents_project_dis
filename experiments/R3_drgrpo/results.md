@@ -27,6 +27,12 @@
    (82.81%) with no empty completions. Removing the two normalisations made training far more stable. Still
    < base (48%), so on GSM8K the recovery is partial.
 
+## Eval artifacts (machine-generated — not hand-typed)
+`eval_results/` holds the script output that produced the numbers above:
+- `R3_drgrpo_summary.json` — metrics + provenance (model, ckpt, `restored_step=3364`, timestamp).
+- `R3_drgrpo_per_prompt.csv` — all 64 test prompts: gold, extracted answer, correct/partial/format, Q+response snippet.
+- `base_*` — the untrained base (comparison point).
+
 ## How to reproduce
 ```bash
 source ~/venvs/tunix/bin/activate
