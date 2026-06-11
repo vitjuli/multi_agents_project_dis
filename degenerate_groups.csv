@@ -1,0 +1,4 @@
+run,label,K,n_steps,degenerate_fraction
+R0_baseline_s0,baseline,2,3364,0.0
+R3_drgrpo_s0,Dr.GRPO,2,3364,0.0
+R1_K4_s0,K=4,4,1682,0.0
