@@ -67,7 +67,7 @@ MAX_GRAD_NORM = 0.1        # tight clipping keeps KL well-behaved
 # ====== Checkpointing ======
 # NOTE: /tmp is volatile. For long runs, point this at persistent storage.
 INTERMEDIATE_CKPT_DIR = "/tmp/content/intermediate_ckpt/"
-CKPT_DIR = "/tmp/content/ckpts/"
+CKPT_DIR = "/tmp/content/ckpts_R3/"
 TENSORBOARD_DIR = "/tmp/content/tmp/tensorboard/grpo"
 SAVE_INTERVAL_STEPS = 500
 MAX_TO_KEEP = 4

@@ -21,6 +21,7 @@ from dotenv import load_dotenv
 from orbax import checkpoint as ocp
 from tunix.rl import rl_cluster as rl_cluster_lib
 from tunix.rl.grpo.grpo_learner import GRPOConfig, GRPOLearner
+from tunix.rl.grpo.drgrpo_learner import DrGRPOConfig, DrGRPOLearner
 from tunix.rl.rollout import base_rollout
 from tunix.sft import metrics_logger
 
@@ -158,7 +159,7 @@ def main():
 
     optimizer = build_optimizer()
     cluster_cfg = build_cluster_config(mesh, optimizer, eos_tokens)
-    grpo_cfg = GRPOConfig(
+    grpo_cfg = DrGRPOConfig(
         num_generations=NUM_GENERATIONS,
         num_iterations=NUM_ITERATIONS,
         beta=BETA,
@@ -168,7 +169,7 @@ def main():
     rl_cluster = rl_cluster_lib.RLCluster(
         actor=lora, reference=base, tokenizer=tokenizer, cluster_config=cluster_cfg,
     )
-    trainer = GRPOLearner(rl_cluster=rl_cluster, reward_fns=REWARD_FNS, algo_config=grpo_cfg)
+    trainer = DrGRPOLearner(rl_cluster=rl_cluster, reward_fns=REWARD_FNS, algo_config=grpo_cfg)
 
     print(f"Starting GRPO training. CKPT_DIR={CKPT_DIR}  MAX_STEPS={MAX_STEPS}")
     trainer.train(train_ds, val_ds)
