@@ -77,7 +77,9 @@ correctness reward in W&B as the real success metric.
 | `data.py`         | GSM8K loading, prompt template, train/val/test split. |
 | `rewards.py`      | The four reward functions and the regexes that parse outputs. |
 | `model.py`        | Download Gemma weights, build the JAX mesh, wrap with LoRA, load tokenizer. |
-| `evaluate.py`     | Standalone evaluation: accuracy / partial accuracy / format accuracy. |
+| `evaluate.py`     | Standalone evaluation — ⚠️ **as-shipped it does NOT restore the trained checkpoint** (builds a fresh B=0 LoRA = base), so it measures the *base* model. Use `eval_ckpt.py` instead. |
+| `eval_ckpt.py`    | 🔴 **Checkpoint-restoring eval (our fix).** Restores the trained LoRA adapters and writes machine artifacts (`*_summary.json` + `*_per_prompt.csv`). See §9. |
+| `eval_debug.py`   | Diagnostic that prints the model vs on-disk checkpoint state-trees (how we found the restore format). |
 | `chat.py`         | Interactive REPL that loads a checkpoint and lets you prompt the trained policy. |
 | `train.py`        | Main entry point: assembles the RL cluster and runs `GRPOLearner.train`. |
 | `run_tmux.sh`     | Launches `train.py` inside a detached `tmux` session so closing your shell does not kill it. |
@@ -217,14 +219,39 @@ What to look for:
 | `RANK` (LoRA)         | 64      | More adapter capacity, more KL drift potential.     |
 | `TEMPERATURE`         | 0.9     | Diversity within each group of G rollouts.          |
 
-## 9. Standalone evaluation
+## 9. Standalone evaluation — use `eval_ckpt.py` (writes artifacts)
 
-To benchmark the *base* model (no training) before/after a run:
+🔴 **Important:** the shipped `evaluate.py` builds a *fresh* LoRA (`get_lora_model`, adapters init B=0 ⇒
+identical to the base model) and **never restores the trained checkpoint** — so `python evaluate.py` silently
+benchmarks the BASE model, not your finetuned policy. We added **`eval_ckpt.py`** to fix this and to emit
+verifiable result files.
+
 ```bash
-python evaluate.py --preset greedy
+# base model (no training):
+python eval_ckpt.py --policy base --out eval_results/base
+# a trained run (restores the LoRA adapters from the checkpoint):
+python eval_ckpt.py --policy lora --ckpt ~/ckpts_R0_baseline/actor --out eval_results/R0_baseline
+# a specific step (e.g. for a collapse curve):
+python eval_ckpt.py --policy lora --ckpt ~/ckpts_R0_baseline/actor --step 2000 --out eval_results/R0_step2000
 ```
-Greedy decoding gives a deterministic number you can compare against. Use
-`--preset standard` for a sampling-based estimate.
+
+Each run prints `restored LoRA adapters from step N` (🔴 **check N≠0** — `step 0` means no checkpoint was
+found and you are measuring the untrained model) and writes two artifacts under `--out`:
+- `<out>_summary.json` — accuracy / partial / format + provenance (model, ckpt, `restored_step`, timestamp).
+- `<out>_per_prompt.csv` — one row per test prompt: gold answer, extracted number, correct/partial/format
+  flags, and a question + response snippet. This is the machine-generated proof of the numbers.
+
+How the restore works (was non-obvious): the Orbax checkpoint stores **only the ~312 trainable LoRA-adapter
+leaves** (keys `layers.*.attn.q_einsum.w_lora_a/b`, `mlp.*.kernel_lora_a/b`), not the frozen base. So we
+restore with Tunix's own `CheckpointManager.maybe_restore(lora, restore_only_lora_params=True)`; the frozen
+base stays at the downloaded weights. `eval_debug.py` prints both trees if you need to re-derive this.
+
+Gotchas:
+- Run **`rm -rf data`** before each eval — a tfds/protobuf reload bug (`FieldDescriptor has no attribute
+  'label'`) hits the cached-dataset path; re-downloading avoids it.
+- `--preset greedy` (default) gives a deterministic number for grading; `standard`/`liberal` sample.
+
+(`evaluate.py` is kept for reference but should not be used for the finetuned numbers.)
 
 ## 10. Interactive chat with a trained checkpoint
 
