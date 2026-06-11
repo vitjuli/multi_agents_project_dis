@@ -16,8 +16,9 @@ merge/overwrite** clobbering another experiment. Each folder is independently re
 | **R3** Dr.GRPO (final) | **31.25%** | 82.81% | 🟢 10× more stable + format |
 | **R1** K=4 (final) | **48.44%** | 85.94% | 🏆 no collapse: base acc + format |
 
-![accuracy](figs/accuracy_bar.png)
-![collapse](figs/collapse_curve.png)
+> 📊 **Figures are individual.** This shared repo holds the *data* (numbers, `eval_results/`, raw CSVs) but
+> **not** rendered plots — each teammate builds their own figures for their own report from this data
+> (see `bootstrap_ci.py` and the W&B project). Don't reuse someone else's plots.
 
 **Story:** vanilla GRPO at K=2 has the highest advantage variance (`Var(Â)=(K−1)/K`) + most degenerate groups
 → it over-optimises the format shaping reward and **collapses** math accuracy (48%→3% over training). **Both**
@@ -27,7 +28,7 @@ variance) prevents the collapse entirely. → directly validates the I.4 Q1 vari
 ## Layout
 ```
 README.md                     # this file
-figs/                         # accuracy_bar.png, collapse_curve.png (from plot_results.py)
+figs/accuracy_ci.md           # bootstrap 95% CI table (numbers; rendered plots are individual, not shared)
 experiments/
   R0_baseline/  scripts/ (stock) + results.md + eval_results/   # reference run, K=2
   R3_drgrpo/    scripts/ (DrGRPO) + results.md + eval_results/   # improvement #1

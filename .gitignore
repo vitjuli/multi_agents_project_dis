@@ -7,3 +7,9 @@ ckpts*/
 intermediate_ckpt/
 *.log
 .DS_Store
+
+# Individual-report material — keep LOCAL, do NOT share in the team repo
+# (figures + the scripts that render them; everyone builds their own from the data).
+figs/*.png
+plot_results.py
+plot_wandb.py
