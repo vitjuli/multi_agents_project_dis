@@ -32,6 +32,9 @@ both improvements (Dr.GRPO, K=4) and an **early stop** (~step 800 would have kep
 - `R0_baseline_per_prompt.csv` — all 64 test prompts: gold, extracted answer, correct/partial/format, Q+response snippet.
 - `base_summary.json` / `base_per_prompt.csv` — the untrained base (the comparison point).
 
+**Bootstrap 95% CI** (10k resamples, 64 prompts): R0 final **3.12%** [0.0, 7.8] vs base **48.44%** [35.9, 60.9]
+— non-overlapping ⇒ the collapse is statistically real. Full table: `../../figs/accuracy_ci.md` (`../../bootstrap_ci.py`).
+
 ## How to reproduce
 ```bash
 source ~/venvs/tunix/bin/activate

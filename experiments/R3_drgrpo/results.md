@@ -33,6 +33,9 @@
 - `R3_drgrpo_per_prompt.csv` — all 64 test prompts: gold, extracted answer, correct/partial/format, Q+response snippet.
 - `base_*` — the untrained base (comparison point).
 
+**Bootstrap 95% CI** (10k resamples, 64 prompts): R3 **31.25%** [20.3, 43.8] vs R0 baseline **3.12%** [0.0, 7.8]
+— non-overlapping ⇒ the stability win is statistically real. Full table: `../../figs/accuracy_ci.md`.
+
 ## How to reproduce
 ```bash
 source ~/venvs/tunix/bin/activate

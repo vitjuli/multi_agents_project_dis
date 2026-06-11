@@ -35,6 +35,9 @@ log says `restored step N` with N≠0.**
 - `R1_K4_per_prompt.csv` — all 64 test prompts: gold, extracted answer, correct/partial/format, Q+response snippet.
 - `base_*` — the untrained base (comparison point).
 
+**Bootstrap 95% CI** (10k resamples, 64 prompts): K=4 **48.44%** [35.9, 60.9] vs R0 baseline **3.12%** [0.0, 7.8]
+— non-overlapping ⇒ K=4 avoids the collapse; K=4's CI coincides with base ⇒ no accuracy loss. Full table: `../../figs/accuracy_ci.md`.
+
 ## How to reproduce
 ```bash
 source ~/venvs/tunix/bin/activate
