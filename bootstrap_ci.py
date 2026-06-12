@@ -19,10 +19,14 @@ N_BOOT = 10000
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MODELS = {
-    "base":              "experiments/R0_baseline/eval_results/base_per_prompt.csv",
-    "R0 baseline (K=2)": "experiments/R0_baseline/eval_results/R0_baseline_per_prompt.csv",
-    "R3 Dr.GRPO":        "experiments/R3_drgrpo/eval_results/R3_drgrpo_per_prompt.csv",
-    "R1 K=4":            "experiments/R1_K4/eval_results/R1_K4_per_prompt.csv",
+    "base":                "experiments/R0_baseline/eval_results/base_per_prompt.csv",
+    "R0 baseline K2 s42":  "experiments/R0_baseline/eval_results/R0_baseline_per_prompt.csv",
+    "R5 baseline K2 s1":   "experiments/R5_baseline_s1/eval_results/R5_baseline_s1_per_prompt.csv",
+    "R3 Dr.GRPO K2":       "experiments/R3_drgrpo/eval_results/R3_drgrpo_per_prompt.csv",
+    "R1 K=4":              "experiments/R1_K4/eval_results/R1_K4_per_prompt.csv",
+    "R6 K=8":              "experiments/R6_K8/eval_results/R6_K8_per_prompt.csv",
+    "R4 beta=0":           "experiments/R4_beta0/eval_results/R4_beta0_per_prompt.csv",
+    "R4 beta=0.12":        "experiments/R4_beta12/eval_results/R4_beta12_per_prompt.csv",
 }
 
 

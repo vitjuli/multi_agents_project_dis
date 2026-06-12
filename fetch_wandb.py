@@ -15,9 +15,13 @@ import wandb
 
 PROJECT = "chfazhvi/chfazhvi-grpo"
 RUNS = {                       # display name -> short tag
-    "R0_baseline_s0": "R0",
-    "R3_drgrpo_s0":   "R3",
-    "R1_K4_s0":       "R1",
+    "R0_baseline_s0":  "R0",
+    "R5_baseline_s1":  "R5",
+    "R3_drgrpo_s0":    "R3",
+    "R1_K4_s0":        "R1",
+    "R6_K8":           "R6",
+    "R4_beta0.0_s0":   "R4b0",
+    "R4_beta0.12_s0":  "R4b12",
 }
 KEYS = [
     "_step",
