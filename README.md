@@ -8,31 +8,40 @@ Each experiment lives in its **own self-contained folder** under `experiments/` 
 code it ran** (`scripts/`) + its `results.md`. Nothing is shared, so there is **no risk of an accidental
 merge/overwrite** clobbering another experiment. Each folder is independently reproducible.
 
-## 🏆 Headline results (held-out GSM8K, greedy, 64 test prompts)
+## 🏆 Headline results (held-out GSM8K, greedy, 64 test prompts) — 8 runs
 | Model | Accuracy | Format | Verdict |
 |-------|----------|--------|---------|
 | base `gemma-3-1b-it` | 48.44% | 9.38% | strong base, ignores template |
-| **R0** baseline GRPO K=2 (final) | **3.12%** | 12.50% | 🔴 collapsed |
-| **R3** Dr.GRPO (final) | **31.25%** | 82.81% | 🟢 10× more stable + format |
-| **R1** K=4 (final) | **48.44%** | 85.94% | 🏆 no collapse: base acc + format |
+| **R0** baseline K=2 (seed 42) | **3.12%** | 12.50% | 🔴 collapsed |
+| **R5** baseline K=2 (seed 1) | **40.62%** | 65.62% | ⚠️ NOT collapsed → **collapse is seed-dependent** |
+| **R3** Dr.GRPO K=2 | **31.25%** | 82.81% | 🟢 recovers |
+| **R1** K=4 | **48.44%** | 85.94% | 🟢 stable |
+| **R6** K=8 | **56.25%** | 87.50% | 🏆 **best, > base** |
+| **R4** β=0 / β=0.12 | 46.88% / 0.00% | 96.9% / 0% | β-sweep: more KL penalty → worse (at seed 42) |
 
 > 📊 **Figures are individual.** This shared repo holds the *data* (numbers, `eval_results/`, raw CSVs) but
 > **not** rendered plots — each teammate builds their own figures for their own report from this data
 > (see `bootstrap_ci.py` and the W&B project). Don't reuse someone else's plots.
 
-**Story:** vanilla GRPO at K=2 has the highest advantage variance (`Var(Â)=(K−1)/K`) + most degenerate groups
-→ it over-optimises the format shaping reward and **collapses** math accuracy (48%→3% over training). **Both**
-improvements fix the instability: **Dr.GRPO** (drop σ_r-norm + length-norm) recovers to 31%; **K=4** (lower
-variance) prevents the collapse entirely. → directly validates the I.4 Q1 variance theory on accuracy.
+**Story:** at K=2 the advantage variance `Var(Â)=(K−1)/K` is highest, so training is fragile — it can
+over-optimise the format shaping reward and **collapse** (48→3%), but whether it does is **seed-dependent**
+(R5: seed 1 stays at 40.6%) and **β-dependent** (R4: β=0→47%, β=0.08→3%, β=0.12→0%). The clean, **seed-robust
+fix is a larger group**: K=4 is stable at base accuracy and **K=8 exceeds it (56%)** — the cleanest validation
+of the variance theory on held-out accuracy. Dr.GRPO (drop σ_r/length norms) also recovers (31%) and, against
+our prediction, makes responses *longer* not shorter.
 
 ## Layout
 ```
 README.md                     # this file
 figs/accuracy_ci.md           # bootstrap 95% CI table (numbers; rendered plots are individual, not shared)
 experiments/
-  R0_baseline/  scripts/ (stock) + results.md + eval_results/   # reference run, K=2
-  R3_drgrpo/    scripts/ (DrGRPO) + results.md + eval_results/   # improvement #1
-  R1_K4/        scripts/ (K=4)   + results.md + eval_results/    # improvement #2 (best)
+  R0_baseline/      K=2 reference (seed 42, collapses)
+  R5_baseline_s1/   K=2, 2nd seed (seed 1, does NOT collapse — rigor)
+  R3_drgrpo/        Dr.GRPO (drop σ_r + length norms)
+  R1_K4/            K=4 (stable)
+  R6_K8/            K=8 (best, > base)
+  R4_beta0/  R4_beta12/   β-sweep (KL penalty off / tighter)
+  (each = scripts/ + results.md + eval_results/)
 ```
 Each `results.md` has: exact config, W&B/commit provenance, accuracy numbers, the finding, a reproduce block.
 Each `eval_results/` holds the **machine-generated** proof the numbers are real (not hand-typed):
