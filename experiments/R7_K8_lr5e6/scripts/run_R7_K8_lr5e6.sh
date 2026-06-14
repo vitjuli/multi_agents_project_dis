@@ -18,7 +18,7 @@ export NUM_GENERATIONS=8
 export NUM_BATCHES=935
 
 # Unique R7 checkpoint path
-export CKPT_DIR="/tmp/content/ckpts_R7_K8_lr5e6/"
+export CKPT_DIR="$HOME/ckpts_R7_K8_lr5e6/"
 
 echo "Starting R7_K8_lr5e6"
 echo "Time: $(date)"
