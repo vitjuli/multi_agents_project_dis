@@ -18,7 +18,7 @@ export NUM_GENERATIONS=8
 export NUM_BATCHES=935
 
 # Unique R7 checkpoint path
-export CKPT_DIR="/tmp/content/ckpts_R7_K8_lr5e6/"
+export CKPT_DIR="$HOME/ckpts_R7_K8_lr5e6/"
 
 echo "Starting R7_K8_lr5e6"
 echo "Time: $(date)"
@@ -29,6 +29,9 @@ echo "NUM_GENERATIONS=$NUM_GENERATIONS"
 echo "NUM_BATCHES=$NUM_BATCHES"
 echo "CKPT_DIR=$CKPT_DIR"
 echo "Working directory: $(pwd)"
+
+echo "Removing local TFDS cache at ./data before training"
+rm -rf data
 
 python -u train.py 2>&1 | tee ../train_R7_K8_lr5e6.log
 

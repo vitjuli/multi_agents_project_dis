@@ -66,9 +66,9 @@ MAX_GRAD_NORM = 0.1        # tight clipping keeps KL well-behaved
 
 # ====== Checkpointing ======
 # NOTE: /tmp is volatile. For long runs, point this at persistent storage.
-INTERMEDIATE_CKPT_DIR = "/tmp/content/intermediate_ckpt_R7_K8_lr5e6/"
-CKPT_DIR = os.environ.get("CKPT_DIR", "/tmp/content/ckpts_R7_K8_lr5e6/")   # env-overridable: per-run dir
-TENSORBOARD_DIR = "/tmp/content/tmp/tensorboard/grpo_R7_K8_lr5e6"
+INTERMEDIATE_CKPT_DIR = os.path.expanduser("~/intermediate_ckpt_R7_K8_lr5e6/")
+CKPT_DIR = os.environ.get("CKPT_DIR", os.path.expanduser("~/ckpts_R7_K8_lr5e6/"))   # env-overridable: per-run dir
+TENSORBOARD_DIR = os.path.expanduser("~/tensorboard/grpo_R7_K8_lr5e6")
 SAVE_INTERVAL_STEPS = 500
 MAX_TO_KEEP = 4
 
