@@ -25,6 +25,7 @@ MODELS = {
     "R3 Dr.GRPO K2":       "experiments/R3_drgrpo/eval_results/R3_drgrpo_per_prompt.csv",
     "R1 K=4":              "experiments/R1_K4/eval_results/R1_K4_per_prompt.csv",
     "R6 K=8":              "experiments/R6_K8/eval_results/R6_K8_per_prompt.csv",
+    "R7 K=8 lr5e-6": "experiments/R7_K8_lr5e6/eval_results/R7_K8_lr5e6_per_prompt.csv",
     "R4 beta=0":           "experiments/R4_beta0/eval_results/R4_beta0_per_prompt.csv",
     "R4 beta=0.12":        "experiments/R4_beta12/eval_results/R4_beta12_per_prompt.csv",
 }

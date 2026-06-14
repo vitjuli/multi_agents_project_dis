@@ -101,3 +101,15 @@ The useful conclusion for the report is therefore negative but principled: K=8 i
 - Evaluation log: experiments/R7_K8_lr5e6/eval_R7_K8_lr5e6.log
 - Summary JSON: experiments/R7_K8_lr5e6/eval_results/R7_K8_lr5e6_summary.json
 - Per-prompt CSV: experiments/R7_K8_lr5e6/eval_results/R7_K8_lr5e6_per_prompt.csv
+
+## Bootstrap confidence interval
+
+Bootstrap uncertainty was computed using 10,000 resamples over the 64 held-out GSM8K prompts.
+
+| Run | Accuracy | 95% CI | Correct / Total |
+|---|---:|---:|---:|
+| R6 K=8 | 56.25% | [43.75%, 68.75%] | 36 / 64 |
+| R7 K=8 lr5e-6 | 53.12% | [40.62%, 65.62%] | 34 / 64 |
+
+The confidence intervals overlap strongly. Therefore, R7 should not be presented as a clear degradation, but rather as a learning-rate increase that did not produce evidence of improvement over R6. The main conclusion is that the K=8 setting appears to benefit from the original 3e-6 learning rate more than the larger 5e-6 step size.
+
