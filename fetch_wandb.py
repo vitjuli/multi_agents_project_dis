@@ -20,6 +20,7 @@ RUNS = {                       # display name -> short tag
     "R3_drgrpo_s0":    "R3",
     "R1_K4_s0":        "R1",
     "R6_K8":           "R6",
+    "R7_K8_lr5e6":    "R7",
     "R4_beta0.0_s0":   "R4b0",
     "R4_beta0.12_s0":  "R4b12",
 }

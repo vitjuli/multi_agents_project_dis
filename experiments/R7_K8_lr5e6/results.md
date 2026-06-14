@@ -113,3 +113,15 @@ Bootstrap uncertainty was computed using 10,000 resamples over the 64 held-out G
 
 The confidence intervals overlap strongly. Therefore, R7 should not be presented as a clear degradation, but rather as a learning-rate increase that did not produce evidence of improvement over R6. The main conclusion is that the K=8 setting appears to benefit from the original 3e-6 learning rate more than the larger 5e-6 step size.
 
+## Figures and diagnostics
+
+The following figures were generated from the W&B CSV exports using `plot_wandb.py`.
+
+| Figure | File | Purpose |
+|---|---|---|
+| Mean reward curves | `figs/train_mean_reward_curves.png` | Compares GRPO train reward across baseline and variants, including R6 and R7. |
+| KL curves | `figs/train_kl_curves.png` | Compares policy movement / KL usage across runs. |
+| Response length diagnostic | `figs/diagnostic_eval_response_length_curves.png` | Diagnostic plot for a GRPO failure mode: response length drift during training. |
+
+For R7 specifically, the final W&B CSV row has train KL approximately 0.172 and eval response length approximately 363.6 tokens. Compared with R6, R7 has slightly lower held-out accuracy and longer eval responses, suggesting that the larger learning rate did not improve the KL/reward trade-off.
+
