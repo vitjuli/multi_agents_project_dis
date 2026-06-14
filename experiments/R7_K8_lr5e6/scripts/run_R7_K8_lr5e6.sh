@@ -30,6 +30,9 @@ echo "NUM_BATCHES=$NUM_BATCHES"
 echo "CKPT_DIR=$CKPT_DIR"
 echo "Working directory: $(pwd)"
 
+echo "Removing local TFDS cache at ./data before training"
+rm -rf data
+
 python -u train.py 2>&1 | tee ../train_R7_K8_lr5e6.log
 
 echo "Finished R7_K8_lr5e6"
