@@ -1,0 +1,15 @@
+{
+  "model": "google/gemma-3-1b-it",
+  "policy": "base",
+  "ckpt": null,
+  "restored_step": null,
+  "preset": "greedy",
+  "dataset": "gsm8k:test",
+  "n_prompts_requested": 64,
+  "n_correct": 31,
+  "n_total": 64,
+  "accuracy_pct": 48.44,
+  "partial_pct": 50.0,
+  "format_pct": 9.38,
+  "timestamp_utc": "2026-06-11T14:01:16Z"
+}
