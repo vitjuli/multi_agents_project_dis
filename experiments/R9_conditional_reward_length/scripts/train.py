@@ -58,7 +58,7 @@ from config import (
 )
 from data import build_train_val_test
 from model import build_mesh, download_weights, load_base_model, get_lora_model, load_tokenizer
-from rewards import REWARD_FNS
+from rewards import build_reward_fns
 
 
 def login_services():
@@ -168,11 +168,12 @@ def main():
     rl_cluster = rl_cluster_lib.RLCluster(
         actor=lora, reference=base, tokenizer=tokenizer, cluster_config=cluster_cfg,
     )
-    trainer = GRPOLearner(rl_cluster=rl_cluster, reward_fns=REWARD_FNS, algo_config=grpo_cfg)
+    reward_fns = build_reward_fns(tokenizer)
+    trainer = GRPOLearner(rl_cluster=rl_cluster, reward_fns=reward_fns, algo_config=grpo_cfg)
 
     print("=" * 60)
     print("GRPO TRAINING CONFIG")
-    print(f"  reward functions : {[f.__name__ for f in REWARD_FNS]}")
+    print(f"  reward functions : {[f.__name__ for f in reward_fns]}")
     print(f"  NUM_GENERATIONS  : {NUM_GENERATIONS}   (group size K)")
     print(f"  BETA             : {BETA}   (KL penalty)")
     print(f"  EPSILON          : {EPSILON}   (PPO clip range)")
