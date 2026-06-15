@@ -116,21 +116,73 @@ def check_numbers(prompts, completions, answer, **kwargs):
     return scores
 
 
-def cosine_length_penalty(prompts, completions, **kwargs):
-    MIN_TOKENS = 50
-    MAX_TOKENS = 400
-    WEIGHT = .75
-    scores = []
-    lengths = []
-    for c in completions:
-        n = len(c.split())
-        lengths.append(n)
-        if n < MIN_TOKENS:
-            scores.append(-WEIGHT)
-        else:
-            penalty = WEIGHT * (1 + math.cos(math.pi * min(n, MAX_TOKENS) / MAX_TOKENS)) / 2
-            scores.append(penalty)
-    print(f"[cosine_length_penalty] lengths={lengths} scores={[round(s,3) for s in scores]}")
-    return scores
+def make_cosine_length_reward(tokenizer):
+    """Correctness-conditional cosine length reward (Yeo et al., 2025).
 
-REWARD_FNS = [match_format_exactly, match_format_approximately, check_answer, check_numbers, cosine_length_penalty]
+    Shape: a single cosine factor f(n) = 0.5 * (1 + cos(pi * n / L_MAX))
+    goes from 1 at n=0 to 0 at n=L_MAX (clamped above). We interpolate
+    between two reward bounds, picked by whether the completion is correct:
+
+      correct + short  -> +R_C_MAX  (efficient: rewarded most)
+      correct + long   -> +R_C_MIN  (don't ramble when you got it right)
+      wrong   + short  ->  R_W_MIN  (don't give up)
+      wrong   + long   ->  R_W_MAX  (encourage trying longer when stuck)
+
+    Closure over `tokenizer` because Tunix only passes dataset columns to
+    reward fns. Token counts use the tokenizer when possible, otherwise
+    fall back to whitespace splitting.
+    """
+    L_MAX = 400
+    R_C_MAX, R_C_MIN =  1.0,  0.3   # correct: short=+1.0, long=+0.3
+    R_W_MAX, R_W_MIN = -0.3, -1.0   # wrong:   long =-0.3, short=-1.0
+
+    def _token_count(text):
+        try:
+            return len(tokenizer.encode(text))
+        except Exception:
+            return len(text.split())
+
+    def cosine_length_reward(prompts, completions, answer, **kwargs):
+        extracted = [
+            guess.group(1) if (guess := match_format.search(r)) is not None else None
+            for r in completions
+        ]
+        scores = []
+        lengths = []
+        for completion, guess, true in zip(completions, extracted, answer):
+            n = _token_count(completion)
+            lengths.append(n)
+            f = 0.5 * (1 + math.cos(math.pi * min(n, L_MAX) / L_MAX))
+
+            correct = False
+            if guess is not None and true is not None:
+                if guess.strip() == true.strip():
+                    correct = True
+                else:
+                    try:
+                        correct = abs(float(guess) / float(true) - 1) < 0.01
+                    except Exception:
+                        pass
+
+            if correct:
+                r = R_C_MIN + (R_C_MAX - R_C_MIN) * f
+            else:
+                r = R_W_MAX + (R_W_MIN - R_W_MAX) * f
+            scores.append(r)
+
+        print(f"[cosine_length_reward] lengths={lengths} scores={[round(s,3) for s in scores]}")
+        return scores
+
+    return cosine_length_reward
+
+
+def build_reward_fns(tokenizer):
+    """Assemble the reward function list. Needed because the cosine length
+    reward closes over the tokenizer, which is only available at runtime."""
+    return [
+        match_format_exactly,
+        match_format_approximately,
+        check_answer,
+        check_numbers,
+        make_cosine_length_reward(tokenizer),
+    ]
