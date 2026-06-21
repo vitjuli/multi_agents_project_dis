@@ -1,0 +1,15 @@
+{
+  "model": "google/gemma-3-1b-it",
+  "policy": "lora",
+  "ckpt": "/home/ext_siqiacademic_gmail_com/ckpts/ckpts_r5_rwdlegth_old/actor",
+  "restored_step": 3364,
+  "preset": "greedy",
+  "dataset": "gsm8k:test",
+  "n_prompts_requested": 64,
+  "n_correct": 24,
+  "n_total": 64,
+  "accuracy_pct": 37.5,
+  "partial_pct": 40.62,
+  "format_pct": 98.44,
+  "timestamp_utc": "2026-06-15T04:27:52Z"
+}
