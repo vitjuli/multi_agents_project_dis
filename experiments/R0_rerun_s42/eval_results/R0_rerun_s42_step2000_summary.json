@@ -1,0 +1,15 @@
+{
+  "model": "google/gemma-3-1b-it",
+  "policy": "lora",
+  "ckpt": "/tmp/content/ckpts/actor",
+  "restored_step": 2000,
+  "preset": "greedy",
+  "dataset": "gsm8k:test",
+  "n_prompts_requested": 64,
+  "n_correct": 18,
+  "n_total": 64,
+  "accuracy_pct": 28.12,
+  "partial_pct": 29.69,
+  "format_pct": 35.94,
+  "timestamp_utc": "2026-06-14T21:20:24Z"
+}

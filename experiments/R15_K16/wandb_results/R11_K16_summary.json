@@ -1,0 +1,17 @@
+{
+  "note": "K=16",
+  "state": "finished",
+  "summary": {
+    "_step": 420,
+    "rewards/eval/score/mean": 7.370345744680851,
+    "rewards/eval/check_answer": 1.4727393617021276,
+    "rewards/eval/check_numbers": 0.8896276595744681,
+    "rewards/eval/match_format_exactly": 2.7367021276595747,
+    "rewards/eval/match_format_approximately": 2.271276595744681,
+    "completions/eval/mean_length": 259.59574468085106,
+    "actor/train/kl": 0.0529119111597538,
+    "actor/train/pg_clipfrac": 0,
+    "actor/eval/pg_clipfrac": 0
+  },
+  "config": {}
+}

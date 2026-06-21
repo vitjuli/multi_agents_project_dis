@@ -1,0 +1,87 @@
+{
+  "R0_baseline_s0": {
+    "note": "K=2 seed0 (collapsed)",
+    "state": "finished",
+    "summary": {
+      "_step": 3364,
+      "rewards/eval/score/mean": -0.9602272727272728,
+      "rewards/eval/check_answer": 0.09792780748663102,
+      "rewards/eval/check_numbers": 0.12232620320855617,
+      "rewards/eval/match_format_exactly": 0.3890374331550802,
+      "rewards/eval/match_format_approximately": -1.5695187165775402,
+      "completions/eval/mean_length": 135.70454545454547,
+      "actor/train/kl": 0.5213061571121216,
+      "actor/train/pg_clipfrac": 0,
+      "actor/eval/pg_clipfrac": 0
+    },
+    "config": {}
+  },
+  "R5_baseline_s1": {
+    "note": "K=2 seed1 (no collapse)",
+    "state": "finished",
+    "summary": {
+      "_step": 3364,
+      "rewards/eval/score/mean": 4.426136363636363,
+      "rewards/eval/check_answer": 0.5945855614973262,
+      "rewards/eval/check_numbers": 0.4772727272727273,
+      "rewards/eval/match_format_exactly": 1.8368983957219251,
+      "rewards/eval/match_format_approximately": 1.517379679144385,
+      "completions/eval/mean_length": 389.77272727272725,
+      "actor/train/kl": 0.5782150626182556,
+      "actor/train/pg_clipfrac": 0,
+      "actor/eval/pg_clipfrac": 0
+    },
+    "config": {}
+  },
+  "R1_K4_s0": {
+    "note": "K=4",
+    "state": "finished",
+    "summary": {
+      "_step": 1682,
+      "rewards/eval/score/mean": 6.261363636363637,
+      "rewards/eval/check_answer": 0.9090909090909092,
+      "rewards/eval/check_numbers": 0.7359625668449198,
+      "rewards/eval/match_format_exactly": 2.5307486631016043,
+      "rewards/eval/match_format_approximately": 2.085561497326203,
+      "completions/eval/mean_length": 294.63903743315507,
+      "actor/train/kl": 0.1229267343878746,
+      "actor/train/pg_clipfrac": 0,
+      "actor/eval/pg_clipfrac": 0
+    },
+    "config": {}
+  },
+  "R6_K8": {
+    "note": "K=8",
+    "state": "finished",
+    "summary": {
+      "_step": 841,
+      "rewards/eval/score/mean": 6.732380319148936,
+      "rewards/eval/check_answer": 1.124002659574468,
+      "rewards/eval/check_numbers": 0.7200797872340425,
+      "rewards/eval/match_format_exactly": 2.684840425531915,
+      "rewards/eval/match_format_approximately": 2.203457446808511,
+      "completions/eval/mean_length": 287.4308510638298,
+      "actor/train/kl": 0.22178684175014496,
+      "actor/train/pg_clipfrac": 0,
+      "actor/eval/pg_clipfrac": 0
+    },
+    "config": {}
+  },
+  "R11_K16": {
+    "note": "K=16",
+    "state": "finished",
+    "summary": {
+      "_step": 420,
+      "rewards/eval/score/mean": 7.370345744680851,
+      "rewards/eval/check_answer": 1.4727393617021276,
+      "rewards/eval/check_numbers": 0.8896276595744681,
+      "rewards/eval/match_format_exactly": 2.7367021276595747,
+      "rewards/eval/match_format_approximately": 2.271276595744681,
+      "completions/eval/mean_length": 259.59574468085106,
+      "actor/train/kl": 0.0529119111597538,
+      "actor/train/pg_clipfrac": 0,
+      "actor/eval/pg_clipfrac": 0
+    },
+    "config": {}
+  }
+}
